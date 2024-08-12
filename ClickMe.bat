@@ -2,7 +2,7 @@
 ::: Script to start the Minecraft server
 :: Creates a new window with the title "Pitufialdea"
 @echo off
-title MT Server
+title Pitufialdea
 color 3f
 @REM ---------------------------- Console ----------------------------
 
@@ -37,6 +37,9 @@ for /d %%a in ("%folder_directory%\versions\*") do set current_version=%%~nxa
 :: The current version is displayed in the console
 echo Current server version: %current_version%
 
+:: Checks if current version is the same as server version
+if "%server_version%"=="%current_version%" goto :backup
+
 :: Asks the user if they want to upgrade the server
 choice /C:yn /T:9999 /D:y /M "Upgrade server?"
 if errorlevel 2 goto :start
@@ -51,6 +54,7 @@ curl "https://piston-data.mojang.com/v1/objects/59353fb40c36d304f2035d51e7d6e6ba
 @REM ---------------------------- Update ----------------------------
 
 @REM ---------------------------- Backup ----------------------------
+:backup
 ::: Script that creates a backup of the world folder using 7zip
 :: Checks if %folder_directory%\world exists
 if not exist "%folder_directory%\world" goto :start
